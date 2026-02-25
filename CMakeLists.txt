@@ -52,6 +52,7 @@ else()
     else()
         add_executable(PhotoAlbum
             ${PROJECT_SOURCES}
+            rc.qrc
         )
     endif()
 endif()
