@@ -18,17 +18,31 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 查找Qt库，先尝试Qt6再尝试Qt5，必须找到Widgets组件
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED Core COMPONENTS Widgets)
 
 # 根据上面找到的Qt主版本号，再次查找对应版本的Widgets组件
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets)
+
+INCLUDE_DIRECTORIES(
+    ${PROJECT_SOURCE_DIR}
+)
 
 # 定义项目的源文件列表，包含主函数、主窗口实现、头文件和UI文件
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    wizard.cpp
+    wizard.h
+    wizard.ui
+    confirmpage.cpp
+    confirmpage.h
+    confirmpage.ui
+    prosetpage.cpp
+    prosetpage.h
+    prosetpage.ui
+    # rc.qrc  # AUTORCC 会自动处理，可不写
 )
 
 # 根据Qt主版本选择不同的可执行文件生成方式
@@ -53,6 +67,9 @@ else()
         add_executable(PhotoAlbum
             ${PROJECT_SOURCES}
             rc.qrc
+            wizard.h wizard.cpp wizard.ui
+            confirmpage.h confirmpage.cpp confirmpage.ui
+            prosetpage.h prosetpage.cpp prosetpage.ui
         )
     endif()
 endif()

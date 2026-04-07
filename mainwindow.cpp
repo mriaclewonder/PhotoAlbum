@@ -4,6 +4,10 @@
 #include <QMenu>
 #include <QAction>
 
+#include <QDebug>
+
+#include "Wizard.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -45,7 +49,15 @@ MainWindow::~MainWindow()
 // 创建项目
 void MainWindow::slot_createPro()
 {
+    qDebug() << "slot create pro triggered";
+    Wizard wizare(this);
+    wizare.setWindowTitle(tr("创建项目"));
+    auto *page = wizare.page(0);
+    page->setTitle(tr("设置项目配置"));
+    // Todo: 连接信号槽
 
+    wizare.show();
+    wizare.exec();
 }
 
 // 打开项目
