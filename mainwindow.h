@@ -24,5 +24,6 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
+    QWidget* _proTree;
 };
 #endif // MAINWINDOW_H

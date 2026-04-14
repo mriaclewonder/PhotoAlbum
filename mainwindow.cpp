@@ -3,10 +3,10 @@
 
 #include <QMenu>
 #include <QAction>
-
 #include <QDebug>
 
 #include "Wizard.h"
+#include "protree.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     act_set_music->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
     menu_set->addAction(act_set_music);
 
+    _proTree = new ProTree();
+    ui->proLayout->addWidget(_proTree, 0);
+
     // 创建项目
     connect(act_creat_pro, &QAction::triggered, this, &MainWindow::slot_createPro);
     // 打开项目
@@ -50,14 +53,17 @@ MainWindow::~MainWindow()
 void MainWindow::slot_createPro()
 {
     qDebug() << "slot create pro triggered";
-    Wizard wizare(this);
-    wizare.setWindowTitle(tr("创建项目"));
-    auto *page = wizare.page(0);
+    Wizard wizard(this);
+    wizard.setWindowTitle(tr("创建项目"));
+    auto *page = wizard.page(0);
     page->setTitle(tr("设置项目配置"));
-    // Todo: 连接信号槽
+    // 连接信号槽
+    connect(&wizard, &Wizard::sig_prosettings, dynamic_cast<ProTree*>(_proTree), &ProTree::slot_addProToTree);
 
-    wizare.show();
-    wizare.exec();
+    wizard.show();
+    wizard.exec();
+
+    disconnect();
 }
 
 // 打开项目

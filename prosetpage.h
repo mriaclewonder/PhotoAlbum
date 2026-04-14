@@ -16,6 +16,8 @@ public:
     explicit ProSetPage(QWidget *parent = nullptr);
     ~ProSetPage();
 
+    void getProSettings(QString& name, QString& path); // 获取项目名字和路径
+
 protected:
     bool isComplete() const override; // 发送completeChanged信号时，会自动触发isComplete函数
 

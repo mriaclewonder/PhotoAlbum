@@ -64,18 +64,27 @@ else()
         # 如果是Android，可以在这里设置Android包源目录（示例注释）
         # set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
+        find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+
         add_executable(PhotoAlbum
             ${PROJECT_SOURCES}
             rc.qrc
             wizard.h wizard.cpp wizard.ui
             confirmpage.h confirmpage.cpp confirmpage.ui
             prosetpage.h prosetpage.cpp prosetpage.ui
+            protree.h protree.cpp protree.ui
+            protreewidget.h protreewidget.cpp
+            protreeitem.h protreeitem.cpp
+            const.h
         )
     endif()
 endif()
 
 # 链接Qt的Widgets模块到目标PhotoAlbum
 target_link_libraries(PhotoAlbum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(PhotoAlbum PRIVATE Qt5::Core Qt5::Widgets)
+target_link_libraries(PhotoAlbum PRIVATE Qt5::Core Qt5::Widgets)
 
 # 对于iOS/macOS，设置bundle标识符（仅Qt版本低于6.1.0时需要手动指定）
 if(${QT_VERSION} VERSION_LESS 6.1.0)

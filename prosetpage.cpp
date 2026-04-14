@@ -27,6 +27,12 @@ ProSetPage::~ProSetPage()
     delete ui;
 }
 
+void ProSetPage::getProSettings(QString &name, QString &path)
+{
+    name = ui->lineEdit->text();
+    path = ui->lineEdit_2->text();
+}
+
 bool ProSetPage::isComplete() const
 {
     if (ui->lineEdit->text() == "" || ui->lineEdit_2->text() == "")
@@ -43,7 +49,6 @@ bool ProSetPage::isComplete() const
 
     // 判断路径是否存在
     QString path = dir.absoluteFilePath(ui->lineEdit->text());
-
     QDir dir1(path);
     if (dir1.exists())
     {
@@ -69,14 +74,12 @@ void ProSetPage::on_btnBrowse_clicked()
     if (fileDialog.exec())
     {
         fileNames = fileDialog.selectedFiles();
+        if (fileNames.length() <= 0)
+        {
+            return;
+        }
+        QString importPath = fileNames.at(0);
+        ui->lineEdit_2->setText(importPath);
     }
-
-    if (fileNames.length() <= 0)
-    {
-        return;
-    }
-
-    QString importPath = fileNames.at(0);
-    ui->lineEdit_2->setText(importPath);
 }
 
