@@ -20,10 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
     act_creat_pro->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
     menu_file->addAction(act_creat_pro);
 
+    // 打开项目菜单
     QAction* act_open_pro = new QAction(QIcon(":/icon/openpro.png"), tr("open project"), this);
     act_open_pro->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     menu_file->addAction(act_open_pro);
 
+    // 设置菜单
     QMenu* menu_set = menuBar()->addMenu(tr("setting(&S)"));
     QAction* act_set_music = new QAction(QIcon(":/icon/music.png"), tr("background music"), this);
     act_set_music->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
@@ -43,7 +45,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::slot_createPro()
 {
-    qDebug() << "slot create pro triggered";
     Wizard wizard(this);
     wizard.setWindowTitle(tr("创建项目"));
     auto *page = wizard.page(0);

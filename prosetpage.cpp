@@ -17,7 +17,7 @@ ProSetPage::ProSetPage(QWidget *parent)
     connect(ui->lineEdit_2, &QLineEdit::textEdited, this, &ProSetPage::completeChanged);
 
     ui->lineEdit->setClearButtonEnabled(true);
-    ui->lineEdit_2->setText(QDir::currentPath());
+    ui->lineEdit_2->setText(QDir::currentPath() + "/album");
     ui->lineEdit_2->setCursorPosition(ui->lineEdit_2->text().size());
     ui->lineEdit_2->setClearButtonEnabled(true);
 }
@@ -63,23 +63,21 @@ bool ProSetPage::isComplete() const
 // 选择文件夹
 void ProSetPage::on_btnBrowse_clicked()
 {
-    QFileDialog fileDialog;
-    fileDialog.setFileMode(QFileDialog::Directory);
-    fileDialog.setWindowTitle(tr("选择要导入的文件夹"));
-    auto path = QDir::currentPath();
-    fileDialog.setDirectory(path);
-    fileDialog.setViewMode(QFileDialog::Detail);
-
-    QStringList fileNames;
-    if (fileDialog.exec())
+    QString startPath = ui->lineEdit_2->text();
+    if (startPath.isEmpty() || !QDir(startPath).exists())
     {
-        fileNames = fileDialog.selectedFiles();
-        if (fileNames.length() <= 0)
-        {
-            return;
-        }
-        QString importPath = fileNames.at(0);
-        ui->lineEdit_2->setText(importPath);
+        startPath = QCoreApplication::applicationDirPath();  // 或 QDir::currentPath()
+    }
+
+    QString selectedPath = QFileDialog::getExistingDirectory(
+                               this,
+                               tr("选择项目存放目录"),
+                               startPath,
+                               QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
+                           );
+
+    if (!selectedPath.isEmpty())
+    {
+        ui->lineEdit_2->setText(selectedPath);
     }
 }
-
