@@ -5,6 +5,10 @@
 #include <QTreeWidgetItem>
 #include <QWidget>
 
+/**
+ * @brief 目录树项基类
+ */
+
 class ProTreeItem : public QTreeWidgetItem
 {
 public:

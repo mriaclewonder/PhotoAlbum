@@ -10,6 +10,10 @@ namespace Ui
     class Wizard;
 }
 
+/**
+ * @brief 向导界面
+ */
+
 class Wizard : public QWizard
 {
     Q_OBJECT
@@ -19,7 +23,8 @@ public:
     ~Wizard();
 
 protected:
-    void done(int result) override;
+    void accept() override;
+    void reject() override;
 
 signals:
     void sig_prosettings(const QString &name, const QString& path);

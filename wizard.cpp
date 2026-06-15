@@ -1,6 +1,8 @@
 #include "wizard.h"
 #include "ui_wizard.h"
 
+#include <QMessageBox>
+
 Wizard::Wizard(QWidget *parent)
     : QWizard(parent)
     , ui(new Ui::Wizard)
@@ -13,15 +15,18 @@ Wizard::~Wizard()
     delete ui;
 }
 
-void Wizard::done(int result)
+void Wizard::accept()
 {
-    if (result == QDialog::Rejected)
-    {
-        return;
-    }
-
     QString name, path;
     ui->wizardPage1->getProSettings(name, path);
     emit sig_prosettings(name, path);
-    QWizard::done(result);
+    QWizard::accept();
+}
+
+void Wizard::reject()
+{
+    if (QMessageBox::question(this, "确认", "确定要取消吗？") == QMessageBox::Yes)
+    {
+        QWizard::reject();
+    }
 }

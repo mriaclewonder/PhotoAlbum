@@ -3,10 +3,15 @@
 
 #include <QWizardPage>
 
-namespace Ui {
-class ConfirmPage;
+
+namespace Ui
+{
+    class ConfirmPage;
 }
 
+/**
+ * @brief 向导页确认界面
+ */
 class ConfirmPage : public QWizardPage
 {
     Q_OBJECT
@@ -16,7 +21,7 @@ public:
     ~ConfirmPage();
 
 private:
-    Ui::ConfirmPage *ui;
+    Ui::ConfirmPage* ui;
 };
 
 #endif // CONFIRMPAGE_H

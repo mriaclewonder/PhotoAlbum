@@ -3,10 +3,15 @@
 
 #include <QWizardPage>
 
+
 namespace Ui
 {
     class ProSetPage;
 }
+
+/**
+ * @brief 向导页创建相册目录界面
+ */
 
 class ProSetPage : public QWizardPage
 {

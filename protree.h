@@ -3,10 +3,15 @@
 
 #include <QDialog>
 
+
 namespace Ui
 {
     class ProTree;
 }
+
+/**
+ * @brief 左侧相册目录树界面
+ */
 
 class ProTree : public QDialog
 {
