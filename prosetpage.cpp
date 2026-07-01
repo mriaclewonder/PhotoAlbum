@@ -60,7 +60,6 @@ bool ProSetPage::isComplete() const
     return QWizardPage::isComplete();
 }
 
-// 选择文件夹
 void ProSetPage::on_btnBrowse_clicked()
 {
     QString startPath = ui->lineEdit_2->text();

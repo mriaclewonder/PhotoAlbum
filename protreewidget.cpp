@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <qguiapplication.h>
 #include <QMenu>
+#include <qfiledialog.h>
 
 #include "protreeitem.h"
 #include "const.h"
@@ -68,5 +69,33 @@ void ProTreeWidget::slot_itemPressed(QTreeWidgetItem *item, int cloumn)
 
 void ProTreeWidget::slot_import()
 {
+    QFileDialog file_dialog;
+    file_dialog.setFileMode(QFileDialog::Directory);
+    file_dialog.setWindowTitle("选择要导入的文件夹");
+    QString path = "";
+    if (!_right_btn_item)
+    {
+        qDebug() << "ProTreeWidget::slot_import right btn item is empty!";
+        path = QDir::currentPath();
+        return;
+    }
 
+    path = dynamic_cast<ProTreeItem*>(_right_btn_item)->GetPath();
+
+    file_dialog.setDirectory(path);
+    file_dialog.setViewMode(QFileDialog::Detail);
+
+    QStringList file_names;
+    if (file_dialog.exec())
+    {
+        file_names = file_dialog.selectedFiles();
+    }
+
+    if (file_names.length() <= 0)
+    {
+        return;
+    }
+
+    // 获取文件名
+    QString import_path = file_names.at(0);
 }

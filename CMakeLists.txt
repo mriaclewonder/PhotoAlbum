@@ -66,6 +66,7 @@ else()
     else()
         find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 
         add_executable(PhotoAlbum
             ${PROJECT_SOURCES}
@@ -77,6 +78,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
             protreewidget.h protreewidget.cpp
             protreeitem.h protreeitem.cpp
             const.h
+            protreethread.h protreethread.cpp
         )
     endif()
 endif()
@@ -85,6 +87,7 @@ endif()
 target_link_libraries(PhotoAlbum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(PhotoAlbum PRIVATE Qt5::Core Qt5::Widgets)
 target_link_libraries(PhotoAlbum PRIVATE Qt5::Core Qt5::Widgets)
+target_link_libraries(PhotoAlbum PRIVATE Qt5::Core)
 
 # 对于iOS/macOS，设置bundle标识符（仅Qt版本低于6.1.0时需要手动指定）
 if(${QT_VERSION} VERSION_LESS 6.1.0)
