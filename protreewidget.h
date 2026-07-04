@@ -1,7 +1,9 @@
 #ifndef PROTREEWIDGET_H
 #define PROTREEWIDGET_H
 
+#include "protreethread.h"
 #include <QObject>
+#include <QProgressDialog>
 #include <QTreeWidget>
 #include <QWidget>
 
@@ -25,11 +27,21 @@ private slots:
 
     void slot_import();
 
+    void slot_updateProgress(int count);
+
+    void slot_cancelProgress();
+
+    void slot_finishProgress();
+
 private:
     QSet<QString> _set_path;
     QAction* _action_import = nullptr;
 
     QTreeWidgetItem* _right_btn_item = nullptr;
+    QProgressDialog* _dialog_progress = nullptr;
+
+    // copy文件线程
+    QSharedPointer<ProTreeThread> _thread_create_pro = nullptr;
 };
 
 #endif // PROTREEWIDGET_H

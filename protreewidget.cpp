@@ -98,4 +98,39 @@ void ProTreeWidget::slot_import()
 
     // 获取文件名
     QString import_path = file_names.at(0);
+    int file_count = 0 ;
+
+    // 创建模态对话框
+    _dialog_progress = new QProgressDialog(this);
+
+    _thread_create_pro = QSharedPointer<ProTreeThread>::create(std::ref(import_path), std::ref(path), _right_btn_item, std::ref(file_count), this, _right_btn_item, nullptr);
+
+    connect(_thread_create_pro.get(), &ProTreeThread::sig_updateProgress, this, &ProTreeWidget::slot_updateProgress);
+
+    connect(_thread_create_pro.get(), &ProTreeThread::sig_FinishProgress, this, &ProTreeWidget::slot_finishProgress);
+
+    connect(_dialog_progress, &QProgressDialog::canceled, this, &ProTreeWidget::slot_cancelProgress);
+
+    // 启动cpoy线程
+    _thread_create_pro->start();
+
+    _dialog_progress->setWindowTitle("Please wait....");
+    _dialog_progress->setFixedWidth(PROGRESS_WIDTH);
+    _dialog_progress->setRange(0, PROGRESS_MAX);
+    _dialog_progress->exec();
+}
+
+void ProTreeWidget::slot_updateProgress(int count)
+{
+
+}
+
+void ProTreeWidget::slot_cancelProgress()
+{
+
+}
+
+void ProTreeWidget::slot_finishProgress()
+{
+
 }

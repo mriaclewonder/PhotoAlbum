@@ -7,7 +7,7 @@ ProTreeItem::ProTreeItem(QTreeWidget *view, const QString &name, const QString &
 }
 
 ProTreeItem::ProTreeItem(QTreeWidgetItem *parent, const QString &name, const QString &path, QTreeWidgetItem *root, int type) : QTreeWidgetItem(parent, type),
-    _path(path), _name(name), _root(this), _prev_item(nullptr), _next_item(nullptr)
+    _path(path), _name(name), _root(root), _prev_item(nullptr), _next_item(nullptr)
 {
 
 }

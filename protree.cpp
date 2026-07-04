@@ -8,7 +8,7 @@ ProTree::ProTree(QWidget *parent)
     , ui(new Ui::ProTree)
 {
     ui->setupUi(this);
-    init();
+    // init();
 }
 
 ProTree::~ProTree()
