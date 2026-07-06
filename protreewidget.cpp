@@ -111,6 +111,8 @@ void ProTreeWidget::slot_import()
 
     connect(_dialog_progress, &QProgressDialog::canceled, this, &ProTreeWidget::slot_cancelProgress);
 
+    connect(this, &ProTreeWidget::sig_cancleProgress, _thread_create_pro.get(), &ProTreeThread::slot_cancleProgress);
+
     // 启动cpoy线程
     _thread_create_pro->start();
 
@@ -122,15 +124,25 @@ void ProTreeWidget::slot_import()
 
 void ProTreeWidget::slot_updateProgress(int count)
 {
+    qDebug() << "ProTreeWidget::slot_updateProgress count is" << count;
+    if (!_dialog_progress)
+    {
+        qDebug() << "ProTreeWidget::slot_updateProgress dialog_progress is empty";
+        return;
+    }
 
+    _dialog_progress->setValue(count % PROGRESS_MAX);
 }
 
 void ProTreeWidget::slot_cancelProgress()
 {
-
+    emit sig_cancleProgress();
+    delete _dialog_progress;
+    _dialog_progress = nullptr;
 }
 
 void ProTreeWidget::slot_finishProgress()
 {
-
+    _dialog_progress->setValue(PROGRESS_MAX);
+    _dialog_progress->deleteLater();
 }

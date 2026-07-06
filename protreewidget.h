@@ -33,6 +33,9 @@ private slots:
 
     void slot_finishProgress();
 
+signals:
+    void sig_cancleProgress();
+
 private:
     QSet<QString> _set_path;
     QAction* _action_import = nullptr;

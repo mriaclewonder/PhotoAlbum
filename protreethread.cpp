@@ -54,7 +54,7 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
     qDebug() << "ProTreeThread::CreateProTree: src_path is" << src_path << "dis_path is" << dis_path;
     // 设置文件过滤器，除文件和目录以外全过滤掉
     importDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-    importDir.setSorting(QDir::Name); // 优先显示名字
+    importDir.setSorting(QDir::Name | QDir::DirsFirst); // 优先显示名字
     QFileInfoList list = importDir.entryInfoList();
     qDebug() << "ProTreeThread::CreateProTree: info list size is" << list.size();
 
@@ -146,5 +146,24 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
             pre_item = item;
         }
     }
+
+    QList<QTreeWidgetItem*> children;
+    while(parent_item->childCount() > 0)
+    {
+        children.append(parent_item->takeChild(0));
+    }
+    std::sort(children.begin(), children.end(), [](QTreeWidgetItem * a, QTreeWidgetItem * b)
+    {
+        if (a->type() != b->type())
+        {
+            return a->type() < b->type();
+        }
+        return a->text(0) < b->text(0);
+    });
+    for(auto *item : children)
+    {
+        parent_item->addChild(item);
+    }
+
     parent_item->setExpanded(true);
 }

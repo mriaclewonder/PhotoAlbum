@@ -21,10 +21,12 @@ public:
     explicit ProSetPage(QWidget *parent = nullptr);
     ~ProSetPage();
 
-    void getProSettings(QString& name, QString& path); // 获取项目名字和路径
+    // 获取项目名字和路径
+    void getProSettings(QString& name, QString& path);
 
 protected:
-    bool isComplete() const override; // 发送completeChanged信号时，会自动触发isComplete函数
+    // 发送completeChanged信号时，会自动触发isComplete函数
+    bool isComplete() const override;
 
 private slots:
     void on_btnBrowse_clicked();
