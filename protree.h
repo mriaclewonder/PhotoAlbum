@@ -3,7 +3,6 @@
 
 #include <QDialog>
 
-
 namespace Ui
 {
     class ProTree;
@@ -23,9 +22,6 @@ public:
 
 public slots:
     void slot_addProToTree(const QString& name, const QString& path);
-
-private:
-    void init();
 
 private:
     Ui::ProTree* ui;

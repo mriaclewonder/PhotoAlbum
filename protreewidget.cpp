@@ -130,7 +130,6 @@ void ProTreeWidget::slot_updateProgress(int count)
         qDebug() << "ProTreeWidget::slot_updateProgress dialog_progress is empty";
         return;
     }
-
     _dialog_progress->setValue(count % PROGRESS_MAX);
 }
 

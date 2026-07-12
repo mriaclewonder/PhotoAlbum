@@ -65,7 +65,7 @@ void ProSetPage::on_btnBrowse_clicked()
     QString startPath = ui->lineEdit_2->text();
     if (startPath.isEmpty() || !QDir(startPath).exists())
     {
-        startPath = QCoreApplication::applicationDirPath();  // 或 QDir::currentPath()
+        startPath = QCoreApplication::applicationDirPath();
     }
 
     QString selectedPath = QFileDialog::getExistingDirectory(

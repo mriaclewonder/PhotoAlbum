@@ -54,7 +54,8 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
     qDebug() << "ProTreeThread::CreateProTree: src_path is" << src_path << "dis_path is" << dis_path;
     // 设置文件过滤器，除文件和目录以外全过滤掉
     importDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-    importDir.setSorting(QDir::Name | QDir::DirsFirst); // 优先显示名字
+    // 优先显示名字
+    importDir.setSorting(QDir::Name | QDir::DirsFirst);
     QFileInfoList list = importDir.entryInfoList();
     qDebug() << "ProTreeThread::CreateProTree: info list size is" << list.size();
 
@@ -95,12 +96,29 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
                     continue;
                 }
             }
-            auto* item = new ProTreeItem(parent_item, info.fileName(), sub_dist_path, root, TreeItemDir);
-            item->setData(0, Qt::DisplayRole, info.fileName());
-            item->setData(0, Qt::DecorationRole, QIcon(":/icon/dir.png"));
-            item->setData(0, Qt::ToolTipRole, sub_dist_path);
 
-            CreateProTree(info.absoluteFilePath(), sub_dist_path, item, file_count, self, root, pre_item, root_dis_path);
+            QTreeWidgetItem* existing = nullptr;
+            for (int c = 0; c < parent_item->childCount(); ++c)
+            {
+                if (parent_item->child(c)->text(0) == info.fileName())
+                {
+                    existing = parent_item->child(c);
+                    break;
+                }
+            }
+            if (existing)
+            {
+                CreateProTree(info.absoluteFilePath(), sub_dist_path, existing, file_count, self, root, pre_item, root_dis_path);
+            }
+            else
+            {
+                auto* item = new ProTreeItem(parent_item, info.fileName(), sub_dist_path, root, TreeItemDir);
+                item->setData(0, Qt::DisplayRole, info.fileName());
+                item->setData(0, Qt::DecorationRole, QIcon(":/icon/dir.png"));
+                item->setData(0, Qt::ToolTipRole, sub_dist_path);
+
+                CreateProTree(info.absoluteFilePath(), sub_dist_path, item, file_count, self, root, pre_item, root_dis_path);
+            }
         }
         else
         {
@@ -128,6 +146,24 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
             if(!QFile::copy(info.absoluteFilePath(), dis_file_path))
             {
                 qDebug() << "ProTreeThread::CreateProTree: file src to dist copy is failed";
+                continue;
+            }
+
+            QTreeWidgetItem* existing = nullptr;
+            for (int c = 0; c < parent_item->childCount(); ++c)
+            {
+                if (parent_item->child(c)->text(0) == info.fileName())
+                {
+                    existing = parent_item->child(c);
+                    break;
+                }
+            }
+            if (existing)
+            {
+                if (existing->type() == TreeItemPic)
+                {
+                    pre_item = existing;
+                }
                 continue;
             }
 
