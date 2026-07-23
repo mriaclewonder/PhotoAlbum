@@ -24,13 +24,11 @@ public:
 
 private slots:
     void slot_itemPressed(QTreeWidgetItem* item, int cloumn);
-
     void slot_import();
+    void slot_setActive();
 
     void slot_updateProgress(int count);
-
     void slot_cancelProgress();
-
     void slot_finishProgress();
 
 signals:
@@ -39,8 +37,11 @@ signals:
 private:
     QSet<QString> _set_path;
     QAction* _action_import = nullptr;
+    QAction* _action_setstart = nullptr;
+    QAction* _action_closepro = nullptr;
 
     QTreeWidgetItem* _right_btn_item = nullptr;
+    QTreeWidgetItem* _active_item = nullptr;
     QProgressDialog* _dialog_progress = nullptr;
 
     // copy文件线程

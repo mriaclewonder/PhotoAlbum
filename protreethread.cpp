@@ -200,6 +200,5 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dis_pa
     {
         parent_item->addChild(item);
     }
-
     parent_item->setExpanded(true);
 }

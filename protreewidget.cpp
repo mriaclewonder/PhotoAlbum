@@ -17,7 +17,10 @@ ProTreeWidget::ProTreeWidget(QWidget* parent): QTreeWidget(parent)
     connect(this, &ProTreeWidget::itemPressed, this, &ProTreeWidget::slot_itemPressed);
 
     _action_import = new QAction(QIcon(":/icon/import.png"), tr("导入文件"), this);
+    _action_setstart = new QAction(QIcon(":/icon/core.png"), tr("设置活动项目"), this);
+    _action_closepro = new QAction(QIcon(":/icon/close.png"), tr("关闭项目"), this);
     connect(_action_import, &QAction::triggered, this, &ProTreeWidget::slot_import);
+    connect(_action_setstart, &QAction::triggered, this, &ProTreeWidget::slot_setActive);
 }
 
 void ProTreeWidget::addProToTree(const QString &name, const QString &path)
@@ -62,6 +65,8 @@ void ProTreeWidget::slot_itemPressed(QTreeWidgetItem *item, int cloumn)
         {
             _right_btn_item = item;
             menu.addAction(_action_import);
+            menu.addAction(_action_setstart);
+            menu.addAction(_action_closepro);
             menu.exec(QCursor::pos());   //菜单弹出位置为鼠标点击位置
         }
     }
@@ -120,6 +125,25 @@ void ProTreeWidget::slot_import()
     _dialog_progress->setFixedWidth(PROGRESS_WIDTH);
     _dialog_progress->setRange(0, PROGRESS_MAX);
     _dialog_progress->exec();
+}
+
+void ProTreeWidget::slot_setActive()
+{
+    if (!_right_btn_item)
+    {
+        return;
+    }
+
+    QFont null_font;
+    null_font.setBold(false);
+    if (_active_item)
+    {
+        _active_item->setFont(0, null_font);
+    }
+
+    _active_item = _right_btn_item;
+    null_font.setBold(true);
+    _active_item->setFont(0, null_font);
 }
 
 void ProTreeWidget::slot_updateProgress(int count)
